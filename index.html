@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIYZ LOGIN</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('https://img1.pixhost.to/images/6893/617298240_kyami.jpg');
+      background-size: cover;
+      background-position: center;
+      color: black;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      gap: 10px;
+    }
+    input, button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 250px;
+      box-shadow: 0 0 10px black;
+    }
+    button {
+      background-color: white;
+      cursor: pointer;
+    }
+    .notif {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      animation: notifAnim 6s ease-in-out infinite;
+    }
+    @keyframes notifAnim {
+      0% { top: -100px; opacity: 0; }
+      25% { top: 20px; opacity: 1; }
+      75% { top: 20px; opacity: 1; }
+      100% { top: -100px; opacity: 0; }
+    }
+    .copyright {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+  </style>
+</head>
+<body>
+  <div class="center" id="loginSection">
+    <input type="text" id="username" placeholder="Masukkan Username" />
+    <input type="text" id="email" placeholder="Masukkan Email" />
+    <input type="password" id="password" placeholder="Masukkan Password" />
+    <button onclick="checkLogin()">Masuk</button>
+  </div>  <div class="center" id="mainMenu" style="display:none; flex-direction: column;">
+    <div style="margin-bottom:10px;">© CIYZ GOOD</div>
+    <button onclick="showBugMenu()">Menu Bug</button>
+    <button onclick="window.location.href='https://wa.me/62895337727870?text=Permisi+Developer'">Developer</button>
+    <button onclick="window.location.href='https://wa.me/6285122051128'">Owner</button>
+    <button onclick="window.location.href='https://whatsapp.com/channel/0029VbAiecsATRSthuPIDA23'">Saluran WA</button>
+    <button onclick="logout()">Logout</button>
+  </div>  <div class="center" id="bugMenu" style="display:none; flex-direction: column;">
+    <input type="text" id="targetNumber" placeholder="example : 08xxxxxxxx" />
+    <button>viont-force</button>
+    <button>viont-blank</button>
+    <button>viontxciyz</button>
+    <button>the-oliviont</button>
+    <button onclick="hideBugMenu()">Back</button>
+  </div>  <div class="notif" id="notifBox" style="display:none;"></div>
+  <div class="copyright">© CIYZ GOOD</div>  <script>
+    const DATA_KEY = 'device_check_';
+
+    function getDeviceID() {
+      let id = localStorage.getItem('device_id');
+      if (!id) {
+        id = Math.random().toString(36).substring(2);
+        localStorage.setItem('device_id', id);
+      }
+      return id;
+    }
+
+    function showNotif(msg) {
+      const box = document.getElementById('notifBox');
+      box.innerText = msg;
+      box.style.display = 'block';
+      setTimeout(() => { box.style.display = 'none'; }, 6000);
+    }
+
+    function checkLogin() {
+      const username = document.getElementById('username').value.trim().toLowerCase();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value.trim().toLowerCase();
+      const currentDevice = getDeviceID();
+      const combinedKey = username + ':' + email + ':' + password;
+      const existingDevice = localStorage.getItem(DATA_KEY + combinedKey);
+
+      //dibawah bre buat tambahin username + email + pw
+      const validAccounts = [
+        { username: 'ciyz', email: 'ciyz', password: 'good' },
+        { username: 'ryzenx', email: 'ryzenx', password: 'crr' }
+      ];
+
+      const isValid = validAccounts.some(acc =>
+        acc.username === username && acc.email === email && acc.password === password);
+
+      if (isValid) {
+        if (!existingDevice || existingDevice === currentDevice) {
+          localStorage.setItem(DATA_KEY + combinedKey, currentDevice);
+          document.getElementById('loginSection').style.display = 'none';
+          document.getElementById('mainMenu').style.display = 'flex';
+          showNotif('Login Berhasil');
+        } else {
+          showNotif('DATA INI SUDAH DIPAKAI DI HP LAIN!');
+        }
+      } else {
+        showNotif('Username / Email / Password salah!');
+      }
+    }
+
+    function logout() {
+      location.reload();
+    }
+
+    function showBugMenu() {
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById('bugMenu').style.display = 'flex';
+    }
+
+    function hideBugMenu() {
+      document.getElementById('bugMenu').style.display = 'none';
+      document.getElementById('mainMenu').style.display = 'flex';
+    }
+  </script></body>
+</html>
